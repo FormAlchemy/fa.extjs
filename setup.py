@@ -9,7 +9,7 @@ CHANGES
 """
 long_description += open("CHANGES.txt").read()
 
-setup(name='fa.jquery',
+setup(name='fa.extjs',
       version=version,
       description="jQuery widgets for formalchemy",
       long_description=long_description,
@@ -35,10 +35,14 @@ setup(name='fa.jquery',
       install_requires=[
           'setuptools',
           'FormAlchemy',
+          'pyramid_formalchemy',
+          'pyramid',
           'simplejson',
           'fanstatic',
           'js.extjs',
       ],
       entry_points="""
+      [fanstatic.libraries]
+      fa.extjs = fa.extjs.fanstatic_resources:library
       """,
       )

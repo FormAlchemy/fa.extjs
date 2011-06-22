@@ -1,0 +1,9 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <div>
+        </div>
+        <input type="hidden" name="root_url" value="${request.fa_url()}" />
+    </body>
+</html>
