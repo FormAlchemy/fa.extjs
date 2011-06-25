@@ -22,6 +22,7 @@ Ext.onReady(function() {
 			region : 'center',
 			activeItem : 0,
 			border : false,
+			tbar:[Fa.UI.ModelsCombo()],
 			items : [ Fa.UI.Grid()]
 		} ],
 		listeners : {
