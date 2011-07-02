@@ -58,7 +58,6 @@ class ModelView(Base):
         fields = []
         for field in fs.render_fields.values():
             type = field.type.__class__.__name__.lower()
-            type = self.types.get(type, type)
             columns.append(dict(
                       dataIndex=field.name, header=field.label(),
                       editor=dict(xtype=self.types.get(type, '%sfield' % type)),
