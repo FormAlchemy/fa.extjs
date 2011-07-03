@@ -9,7 +9,7 @@ Fa.Data.ModelComboJsonReader = Ext.extend(Ext.data.JsonReader, {
             	var record = new Record({
             		id: root[item],
             		name:item,
-            		description: root[item]
+            		url: root[item]
             	});
             	rs.push(record);
             })
@@ -18,7 +18,7 @@ Fa.Data.ModelComboJsonReader = Ext.extend(Ext.data.JsonReader, {
     }
 });
 
-Fa.UI.ModelsCombo = function() {
+Fa.UI.ModelsCombo = function(modelsGrid) {
 	return new Ext.form.ComboBox({
 		forceSelection : true,
 		editable : false,
@@ -31,7 +31,7 @@ Fa.UI.ModelsCombo = function() {
 			}),
 			autoLoad : true,
 			reader : new Fa.Data.ModelComboJsonReader({
-                fields: ['id', 'name', 'description'],
+                fields: ['id', 'name', 'url'],
                 root:'models'
 			})
 		}),
@@ -43,12 +43,11 @@ Fa.UI.ModelsCombo = function() {
 		displayField : 'name',
 		listWidth : 'auto',
 		tpl : new Ext.XTemplate('<tpl for="."><div class="combo-item">',
-				'<h2>{name}</h2>', '{description}', '</div></tpl>'),
+				'<h2>{name}</h2>', '{url}', '</div></tpl>'),
 		itemSelector : 'div.combo-item',
 		listeners : {
 			'select' : function(combo, record, index) {
-				var modelsGrid = Ext.getCmp('models-grid');
-				modelsGrid.update
+				modelsGrid.updateData(modelsGrid, record.data.url);
 			}
 		}
 	});
@@ -94,12 +93,8 @@ Fa.UI.Grid = function() {
 			groupTextTpl : '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "éléments" : "élement"]})'
 		}),
 		updateData: function(grid, url) {
-            grid.getStore().load({
-                params: {
-                    group_id: group_id,
-                    hierarchy_id: hierarchy_id
-                }
-            });
+			grid.getStore().proxy.setUrl(url, true);
+            grid.getStore().load();
 		}
 
 	};

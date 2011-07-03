@@ -1,6 +1,8 @@
 Ext.onReady(function() {
 	Ext.QuickTips.init();
 
+	var modelsGrid = Ext.ComponentMgr.create(Fa.UI.Grid());
+	
 	var mainPanel = new Ext.Viewport({
 		id : 'main-viewport',
 		forceFit : true,
@@ -22,8 +24,8 @@ Ext.onReady(function() {
 			region : 'center',
 			activeItem : 0,
 			border : false,
-			tbar:[Fa.UI.ModelsCombo()],
-			items : [ Fa.UI.Grid()]
+			tbar:[Fa.UI.ModelsCombo(modelsGrid)],
+			items : [modelsGrid]
 		} ],
 		listeners : {
 			afterrender : function(component) {
