@@ -59,6 +59,8 @@ Fa.UI.Grid = function() {
 		storeUrl : '/store_url',
 		storeAutoLoad : false,
 		storeRestful : true,
+		autoHeight: true,
+		autoScroll: true,
 		title:'hi',
 		id:'models-grid',
 		rowNumberer : false,

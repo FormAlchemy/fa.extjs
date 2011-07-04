@@ -20,6 +20,8 @@ class ModelView(Base):
 
     encoder = JSONEncoder()
     types = dict(
+            integer='int',
+            number='int',
             slider='int',
             color='string',
             unicode='string',
@@ -28,8 +30,10 @@ class ModelView(Base):
             unicode='textfield',
             slider='slider',
             color='colorpalette',
-            date='datepicker',
-            datetime='datepicker',
+            date='datefield',
+            datetime='datefield',
+            number='numberfield',
+            integer='numberfield',
         )
 
     def __init__(self, context, request):
@@ -56,17 +60,19 @@ class ModelView(Base):
         fs = fs.bind(instances=page, request=self.request)
         columns = []
         fields = []
+        total = 0
         for field in fs.render_fields.values():
             type = field.type.__class__.__name__.lower()
             columns.append(dict(
                       dataIndex=field.name, header=field.label(),
-                      editor=dict(xtype=self.types.get(type, '%sfield' % type)),
+                      editor=dict(xtype=self.xtypes.get(type, '%sfield' % type)),
                       width=160, fixed=False
                    ))
             fields.append(dict(name=field.name, type=self.types.get(type, type)))
 
         values = []
         for item in page:
+            total = total+1
             pk = _pk(item)
             fs._set_active(item)
             value = dict(id=pk,
@@ -74,6 +80,6 @@ class ModelView(Base):
             value.update(fs.to_dict(with_prefix=bool(request.params.get('with_prefix'))))
             values.append(value)
 
-        data = dict(columns=columns, metaData=dict(fields=fields), records=values)
+        data = dict(columns=columns, metaData=dict(fields=fields, root='records', id='id'), records=values, success=True, total=total)
         return Response(self.encoder.encode(data),
                         content_type='application/json')
